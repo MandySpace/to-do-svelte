@@ -22,7 +22,7 @@
 
     if (currentHour < 12) {
       greeting = "Good morning";
-    } else if (currentHour < 18) {
+    } else if (currentHour < 17) {
       greeting = "Good afternoon";
     } else {
       greeting = "Good evening";
