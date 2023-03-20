@@ -1,0 +1,132 @@
+:root {
+  --primary: #537fe7;
+  --primary-light: #5884e9;
+  --secondary: #181823;
+  --btn-shadow: #5884e951;
+  --text-color: rgb(255, 255, 255);
+  --border-radius: 3px;
+}
+
+html {
+  font-size: 100%;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--text-color);
+  background: rgb(33, 33, 33);
+  background: radial-gradient(
+    circle,
+    rgba(33, 33, 33, 1) 0%,
+    rgba(24, 24, 35, 1) 100%
+  );
+  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-family: "Teko", sans-serif;
+  font-family: "Ubuntu", sans-serif;
+  height: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+main {
+  max-width: 70rem;
+  margin: 0 auto;
+}
+
+.form-container {
+  min-width: 25rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+}
+
+.form-error {
+  position: absolute;
+  bottom: 0;
+  color: tomato;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+input {
+  min-height: 2.5rem;
+  font-size: 1rem;
+  padding: 0.1em 0.3em;
+  border-radius: var(--border-radius);
+  border: none;
+}
+
+input:focus {
+  outline-color: var(--primary);
+}
+
+button {
+  font-size: 1rem;
+  width: 100%;
+  min-width: 100px;
+  min-height: 2.5rem;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.1s;
+}
+
+button:hover {
+  background-color: var(--primary-light);
+  box-shadow: 0px 0px 20px var(--btn-shadow);
+}
+
+button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.secondary-btn {
+  border: 1px solid var(--text-color);
+  background-color: transparent;
+}
+
+.secondary-btn:hover {
+  background-color: #29293a;
+}
+
+.password-eye-btn {
+  background-color: transparent;
+  width: max-content;
+  min-width: auto;
+}
+
+.password-eye-btn:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
