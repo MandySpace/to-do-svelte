@@ -1,21 +1,16 @@
 <script lang="ts">
-  import { navigate, Route } from "svelte-routing";
-  import Login from "../routes/Login.svelte";
+  import { navigate, Route } from "svelte-navigator";
+  import { token } from "../stores";
 
   export let path: string;
-  let renderPrivateRoute = false;
 
-  $: if (!window.localStorage.getItem("token")) {
-    navigate("/login");
-  } else {
-    renderPrivateRoute = true;
+  $: if (!$token) {
+    navigate("/login", { replace: true });
   }
 </script>
 
 <Route {path}>
-  {#if renderPrivateRoute}
+  {#if $token}
     <slot />
-  {:else}
-    <Login />
   {/if}
 </Route>

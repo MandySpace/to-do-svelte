@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { navigate } from "svelte-routing";
+  import { navigate } from "svelte-navigator";
   import Tasks from "../components/Tasks.svelte";
   import { getUser as getMe, logoutUser } from "../services/authServices";
-  import { toast, user } from "../stores";
+  import { toast, token, user } from "../stores";
   import Spinner from "../uiLibrary/Spinner.svelte";
   import { onMount } from "svelte";
 
@@ -61,6 +61,7 @@
       const response = await logoutUser();
       if (response.status === 200) {
         window.localStorage.removeItem("token");
+        token.set(null);
         user.set(null);
         navigate("/login");
       } else {

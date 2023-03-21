@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios";
-import { navigate } from "svelte-routing";
+import { navigate } from "svelte-navigator";
 import { user } from "../stores";
 
 const config: AxiosRequestConfig = {

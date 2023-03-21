@@ -1,8 +1,8 @@
 <script lang="ts">
   import { loginUser } from "../services/authServices";
   import type { LoginPayload } from "../types/authTypes";
-  import { user } from "../stores";
-  import { Link, navigate } from "svelte-routing";
+  import { token, user } from "../stores";
+  import { Link, navigate } from "svelte-navigator";
   import Spinner from "../uiLibrary/Spinner.svelte";
   import { toast } from "../stores";
   import EyeSVG from "../assets/eye.svg";
@@ -33,6 +33,7 @@
       const response = await loginUser(loginForm);
       if (response.status === 200) {
         window.localStorage.setItem("token", response.data.token);
+        token.set(response.data.token);
         user.set(response.data.user);
         navigate("/", { replace: true });
       } else {

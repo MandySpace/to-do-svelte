@@ -1,8 +1,8 @@
 <script lang="ts">
   import { registerUser } from "../services/authServices";
   import type { RegisterPayload } from "../types/authTypes";
-  import { toast, user } from "../stores";
-  import { Link, navigate } from "svelte-routing";
+  import { toast, token, user } from "../stores";
+  import { Link, navigate } from "svelte-navigator";
   import Spinner from "../uiLibrary/Spinner.svelte";
   import EyeSVG from "../assets/eye.svg";
   import EyeOffSVG from "../assets/eyeOff.svg";
@@ -32,6 +32,7 @@
       const response = await registerUser(registerForm);
       if (response.status === 201) {
         window.localStorage.setItem("token", response.data.token);
+        token.set(response.data.token);
         user.set(response.data.user);
         navigate("/", { replace: true });
       } else {
