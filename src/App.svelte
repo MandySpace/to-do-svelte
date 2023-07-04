@@ -8,8 +8,8 @@
 </script>
 
 <Router>
-  <Route path="register"><Register /></Route>
-  <Route path="login"><Login /></Route>
+  <Route path="/register"><Register /></Route>
+  <Route path="/login"><Login /></Route>
   <PrivateRoute path="/"><Dashboard /></PrivateRoute>
 </Router>
 <Toast />

@@ -103,16 +103,12 @@
       loginFormError.password = null;
     }
   }
-
-  interface FormEventHandler<T> {
-    target: T;
-  }
 </script>
 
 <div class="form-container">
   <h1>Login</h1>
   <p class="sub-title">
-    Don't have an account? <Link to="register" replace>Register</Link>
+    Don't have an account? <Link to="/register" replace>Register</Link>
   </p>
   <form action="#">
     <div>
@@ -139,6 +135,7 @@
         />
         <button
           class="password-eye-btn"
+          type="button"
           on:click|preventDefault={() => (showPassword = !showPassword)}
         >
           <img
@@ -151,7 +148,11 @@
         <p class="form-error">{loginFormError.password}</p>
       {/if}
     </div>
-    <button on:click|preventDefault={submitHandler} disabled={loading}>
+    <button
+      type="submit"
+      on:click|preventDefault={submitHandler}
+      disabled={loading}
+    >
       {#if loading}
         <Spinner />
       {:else}

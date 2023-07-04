@@ -117,7 +117,7 @@
 <div class="form-container">
   <h1>Create an account</h1>
   <p class="sub-title">
-    Already have an account? <Link to="login" replace>Login</Link>
+    Already have an account? <Link to="/login" replace>Login</Link>
   </p>
   <form action="#">
     <div>
