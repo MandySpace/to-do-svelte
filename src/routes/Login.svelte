@@ -91,7 +91,7 @@
 
   $: if (Boolean(loginFormError.username) && Boolean(loginForm.username)) {
     if (loginForm.username.length < 5) {
-      loginForm.username = "Password must be minimum 6 char long";
+      loginFormError.username = "Username must be minimum 5 char long";
     } else {
       loginFormError.username = null;
     }
