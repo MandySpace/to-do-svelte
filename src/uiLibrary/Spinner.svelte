@@ -29,14 +29,14 @@
   .lds-ring {
     display: inline-block;
     position: relative;
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
   }
   .lds-ring div {
     display: block;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 1.3rem;
+    height: 1.3rem;
     margin: 1px;
     border: 2px solid #fff;
     border-radius: 100px;

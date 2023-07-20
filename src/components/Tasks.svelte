@@ -7,6 +7,9 @@
   import Task from "./Task.svelte";
   import { fade, fly } from "svelte/transition";
   import { flip } from "svelte/animate";
+  import NoCompleteTaskSVG from "../assets/no-complete-task.svg";
+  import NoPendingTaskSVG from "../assets/no-pending-task.svg";
+  import ErrorTaskSVG from "../assets/error-task.svg";
 
   let description: string | null = null;
   let tasks: TaskType[] | null = null;
@@ -146,6 +149,12 @@
           Oops! We encountered an issue while fetching your tasks, please try
           again later!
         </h2>
+        <div class="illustration">
+          <img
+            src={ErrorTaskSVG}
+            alt="a lady joining her hands and saying sorry"
+          />
+        </div>
       {:else}
         <h2>
           Looks like you don't have any {tasksToDisplay ===
@@ -153,6 +162,14 @@
             ? "pending"
             : "completed"} tasks!
         </h2>
+        <div class="illustration">
+          <img
+            src={tasksToDisplay === TasksToDisplayEnum.PENDING
+              ? NoPendingTaskSVG
+              : NoCompleteTaskSVG}
+            alt="an illustration to denote that there are no tasks"
+          />
+        </div>
       {/if}
     </div>
   {/if}
@@ -177,7 +194,7 @@
 
   .list-item {
     background-color: var(--primary);
-    min-height: 100px;
+    min-height: 6.25rem;
     font-size: 2rem;
     margin-bottom: 10px;
     border-radius: var(--border-radius);
@@ -206,13 +223,23 @@
   }
 
   .no-tasks-container {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    text-align: center;
+    margin-top: 3rem;
   }
 
   h2 {
     text-align: center;
+    width: 100%;
+  }
+
+  .illustration img {
+    width: 50%;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .illustration img {
+      width: 80%;
+    }
   }
 </style>

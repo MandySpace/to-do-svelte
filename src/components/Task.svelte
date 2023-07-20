@@ -109,7 +109,10 @@
       <Spinner />
     {:else}
       <div class="delete-icon">
-        <img src={DeleteSVG} alt="a dustbin denoting deleting a task" />
+        <img
+          src={DeleteSVG}
+          alt="a girl looking at a worm through a magnifying glass"
+        />
       </div>
     {/if}
   </button>
@@ -170,11 +173,15 @@
   }
 
   @media (max-width: 600px) {
+    .item-actions-container img {
+      width: 24px;
+    }
     p {
       word-break: break-all;
+      font-size: 1.6rem;
     }
     .action-btn {
-      min-width: 35px;
+      min-width: 20px;
     }
   }
 </style>

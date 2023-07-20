@@ -108,7 +108,7 @@
 
 <style>
   main {
-    padding: 2rem;
+    padding: 2rem 1rem;
   }
   nav {
     display: flex;
