@@ -47,11 +47,7 @@
           totalPages = page;
         }
 
-        if (tasks) {
-          tasks = [...tasks, ...data];
-        } else {
-          tasks = data;
-        }
+        tasks = [...tasks, ...data];
 
         errorFetchingTasks = false;
       } else {
@@ -189,7 +185,7 @@
         in:fly={{ y: 100, duration: 500 }}
         animate:flip={{ duration: 500 }}
       >
-        <Task {task} {getTasks} />
+        <Task {task} bind:tasks />
       </div>
     {/each}
     {#if isLoadingMoreTasks}

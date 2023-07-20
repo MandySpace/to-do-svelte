@@ -5,11 +5,12 @@
   import DeleteSVG from "../assets/delete.svg";
   import CheckSVG from "../assets/check.svg";
   import ArrowBackSVG from "../assets/arrowBack.svg";
+  import type { TaskType } from "../types/taskTypes";
   import Spinner from "../uiLibrary/Spinner.svelte";
   import Portal from "../uiLibrary/Portal.svelte";
 
   export let task = null;
-  export let getTasks: () => Promise<void>;
+  export let tasks: TaskType[];
 
   let isDeleteModalOpen = false;
   let taskIdToDelete: string | null = null;
@@ -23,7 +24,7 @@
       const response = await removeTask(taskIdToDelete);
       if (response.status === 200) {
         isDeleting = false;
-        getTasks();
+        tasks = tasks.filter((task) => task._id !== response.data._id);
       } else {
         toast.set({
           message: "Something went wrong!",
@@ -49,7 +50,7 @@
       const response = await editTask(taskId, isCompleted);
       if (response.status === 200) {
         isEditingTask = false;
-        getTasks();
+        tasks = tasks.filter((task) => task._id !== response.data._id);
       } else {
         toast.set({
           message: "Something went wrong!",
@@ -85,6 +86,7 @@
   <button
     class="action-btn"
     on:click={editTaskStatus.call(null, task._id, !task.completed)}
+    disabled={isEditingTask}
   >
     {#if isEditingTask}
       <Spinner />
@@ -97,7 +99,11 @@
       </div>
     {/if}
   </button>
-  <button class="action-btn" on:click={openDeleteModal.call(null, task._id)}>
+  <button
+    class="action-btn"
+    on:click={openDeleteModal.call(null, task._id)}
+    disabled={isDeleting}
+  >
     {#if isDeleting}
       <Spinner />
     {:else}
