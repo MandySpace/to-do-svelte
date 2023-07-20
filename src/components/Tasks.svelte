@@ -67,6 +67,7 @@
           tasks = [response.data];
         }
         description = null;
+        tasksToDisplay = TasksToDisplayEnum.PENDING;
       } else {
         toast.set({
           message: "Something went wrong!",
@@ -187,9 +188,24 @@
   }
 
   .list-container {
-    height: calc(100vh - 300px);
+    height: calc(100vh - 18rem);
     margin-top: 10px;
     position: relative;
+    overflow-y: overlay;
+  }
+
+  .list-container::-webkit-scrollbar {
+    width: 8px; /* width of the entire scrollbar */
+  }
+
+  .list-container::-webkit-scrollbar-track {
+    background: transparent; /* color of the tracking area */
+  }
+
+  .list-container::-webkit-scrollbar-thumb {
+    background-color: rgb(56, 56, 56); /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 1px solid rgb(56, 56, 56); /* creates padding around scroll thumb */
   }
 
   .list-item {
