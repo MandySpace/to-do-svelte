@@ -176,7 +176,7 @@
       width: 24px;
     }
     p {
-      word-break: break-all;
+      word-break: break-word;
       font-size: 1.6rem;
     }
     .action-btn {
