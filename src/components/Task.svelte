@@ -168,4 +168,13 @@
   .action-btn:hover .cross-icon::after {
     content: "Move to Pending";
   }
+
+  @media (max-width: 600px) {
+    p {
+      word-break: break-all;
+    }
+    .action-btn {
+      min-width: 35px;
+    }
+  }
 </style>
