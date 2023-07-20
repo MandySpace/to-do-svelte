@@ -33,6 +33,8 @@
       const response = await loginUser(loginForm);
       if (response.status === 200) {
         window.localStorage.setItem("token", response.data.token);
+        window.localStorage.setItem("refreshToken", response.data.refreshToken);
+        window.localStorage.setItem("expiresIn", response.data.expiresIn);
         token.set(response.data.token);
         user.set(response.data.user);
         navigate("/", { replace: true });
