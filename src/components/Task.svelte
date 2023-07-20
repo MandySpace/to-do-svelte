@@ -5,12 +5,11 @@
   import DeleteSVG from "../assets/delete.svg";
   import CheckSVG from "../assets/check.svg";
   import ArrowBackSVG from "../assets/arrowBack.svg";
-  import type { TaskType } from "../types/taskTypes";
   import Spinner from "../uiLibrary/Spinner.svelte";
   import Portal from "../uiLibrary/Portal.svelte";
 
   export let task = null;
-  export let tasks: TaskType[] | null;
+  export let getTasks: () => Promise<void>;
 
   let isDeleteModalOpen = false;
   let taskIdToDelete: string | null = null;
@@ -24,10 +23,7 @@
       const response = await removeTask(taskIdToDelete);
       if (response.status === 200) {
         isDeleting = false;
-        tasks = tasks.filter((task) => task._id !== response.data._id);
-        if (tasks.length === 0) {
-          tasks = null;
-        }
+        getTasks();
       } else {
         toast.set({
           message: "Something went wrong!",
@@ -53,10 +49,7 @@
       const response = await editTask(taskId, isCompleted);
       if (response.status === 200) {
         isEditingTask = false;
-        tasks = tasks.filter((task) => task._id !== response.data._id);
-        if (tasks.length === 0) {
-          tasks = null;
-        }
+        getTasks();
       } else {
         toast.set({
           message: "Something went wrong!",

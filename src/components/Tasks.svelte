@@ -12,29 +12,47 @@
   import ErrorTaskSVG from "../assets/error-task.svg";
 
   let description: string | null = null;
-  let tasks: TaskType[] | null = null;
+  let tasks: TaskType[] = [];
   let isAddingTask = false;
   let tasksToDisplay: TasksToDisplayEnum = TasksToDisplayEnum.PENDING;
   let isLoadingTasks = false;
+  let isLoadingMoreTasks = false;
   let errorFetchingTasks = false;
   let controller: AbortController | null = null;
+  let page = 1;
+  let limit = 15;
+  let totalPages = Infinity;
+  let scrollContainer: HTMLDivElement;
 
   const getTasks = async () => {
-    isLoadingTasks = true;
+    if (page > 1) {
+      isLoadingMoreTasks = true;
+    } else {
+      isLoadingTasks = true;
+    }
     controller?.abort();
     controller = new AbortController();
     try {
       const response = await fetchTasks(
         tasksToDisplay === TasksToDisplayEnum.COMPLETED,
+        page,
+        limit,
+        "DESC",
         controller.signal
       );
       if (response.status === 200) {
         const data = response.data;
-        if (data.length > 0) {
-          tasks = data;
-        } else {
-          tasks = null;
+
+        if (data.length < limit) {
+          totalPages = page;
         }
+
+        if (tasks) {
+          tasks = [...tasks, ...data];
+        } else {
+          tasks = data;
+        }
+
         errorFetchingTasks = false;
       } else {
         toast.set({
@@ -49,7 +67,11 @@
       }
       errorFetchingTasks = true;
     }
-    isLoadingTasks = false;
+    if (page > 1) {
+      isLoadingMoreTasks = false;
+    } else {
+      isLoadingTasks = false;
+    }
   };
 
   const taskHandler = async () => {
@@ -60,14 +82,12 @@
     try {
       const response = await addTask({ description });
       if (response.status === 201) {
-        if (tasks) {
-          tasks.push(response.data);
-          tasks = tasks;
-        } else {
-          tasks = [response.data];
-        }
+        tasks.unshift(response.data);
+        tasks = tasks;
+
         description = null;
         tasksToDisplay = TasksToDisplayEnum.PENDING;
+        scrollContainer.scrollTop = 0;
       } else {
         toast.set({
           message: "Something went wrong!",
@@ -87,7 +107,33 @@
     isAddingTask = false;
   };
 
-  $: tasksToDisplay, getTasks();
+  const paginationHandler = (e: Event) => {
+    if (isLoadingTasks || isLoadingMoreTasks) {
+      return;
+    }
+
+    const target = e.target as HTMLInputElement;
+    const scrollHeight = target.scrollHeight;
+    const scrollTop = target.scrollTop;
+    const offsetHeight = target.offsetHeight;
+    // console.log(target.scrollHeight, target.scrollTop, target.offsetHeight);
+
+    if (scrollTop + offsetHeight >= scrollHeight) {
+      if (page < totalPages) {
+        page += 1;
+      }
+    }
+  };
+
+  const taskChangeHandler = () => {
+    page = 1;
+    totalPages = Infinity;
+    tasks = [];
+    getTasks();
+  };
+
+  $: tasksToDisplay, taskChangeHandler();
+  $: page, getTasks();
 </script>
 
 <h1>
@@ -129,22 +175,28 @@
   >
 </div>
 
-<div class="list-container">
+<div
+  class="list-container"
+  on:scroll={paginationHandler}
+  bind:this={scrollContainer}
+>
   {#if isLoadingTasks}
     <div class="no-tasks-container"><Spinner size="lg" /></div>
-  {:else if tasks}
+  {:else if tasks.length}
     {#each tasks as task (task._id)}
       <div
         class="list-item"
         in:fly={{ y: 100, duration: 500 }}
         animate:flip={{ duration: 500 }}
-        out:fade={{ duration: 200 }}
       >
-        <Task {task} bind:tasks />
+        <Task {task} {getTasks} />
       </div>
     {/each}
+    {#if isLoadingMoreTasks}
+      <div class="no-tasks-container"><Spinner size="lg" /></div>
+    {/if}
   {:else}
-    <div class="no-tasks-container">
+    <div class="no-tasks-container" in:fade={{ duration: 300 }}>
       {#if errorFetchingTasks}
         <h2>
           Oops! We encountered an issue while fetching your tasks, please try
@@ -192,6 +244,7 @@
     margin-top: 10px;
     position: relative;
     overflow-y: overlay;
+    scroll-behavior: smooth;
   }
 
   .list-container::-webkit-scrollbar {

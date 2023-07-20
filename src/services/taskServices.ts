@@ -1,10 +1,21 @@
 import axios from "./serviceClientConfig";
 import type { TaskPayload } from "../types/taskTypes";
 
-export const fetchTasks = (showCompletedTasks: boolean, signal = null) => {
-  return axios.get(`/tasks?completed=${showCompletedTasks}`, {
-    signal,
-  });
+export const fetchTasks = (
+  showCompletedTasks: boolean,
+  page: number,
+  limit: number,
+  sortBy: string,
+  signal = null
+) => {
+  return axios.get(
+    `/tasks?completed=${showCompletedTasks}&skip=${
+      (page - 1) * limit
+    }&limit=${limit}&sortBy=updatedAt_${sortBy}`,
+    {
+      signal,
+    }
+  );
 };
 
 export const addTask = (payload: TaskPayload) => {
