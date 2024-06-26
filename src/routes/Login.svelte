@@ -57,8 +57,9 @@
         message: errorMsg,
         severity: "error",
       });
+    } finally {
+      loading = false;
     }
-    loading = false;
   };
 
   const validateForm = () => {

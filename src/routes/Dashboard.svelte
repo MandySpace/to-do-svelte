@@ -9,7 +9,8 @@
   onMount(() => {
     if (!$user) {
       getUser();
-    }
+    //ayyoo comment
+   }
   });
 
   let loading = false;
